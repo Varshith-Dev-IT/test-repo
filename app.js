@@ -27,11 +27,16 @@ const peopleSpeed = document.getElementById("peopleSpeed");
 const peopleSpeedVal = document.getElementById("peopleSpeedVal");
 const skyline = document.getElementById("skyline");
 const peopleLane = document.getElementById("peopleLane");
+const treeLane = document.getElementById("treeLane");
+const grassLayer = document.getElementById("grassLayer");
 const scrollBg = document.getElementById("scrollBg");
-const sectionAtmosphere = document.getElementById("layers");
+const sectionAtmosphere = document.getElementById("about");
 const sectionStratosphere = document.getElementById("stratosphere");
 const sectionCity = document.getElementById("city");
-const sectionExplore = document.getElementById("explore");
+const sectionExplore = document.getElementById("gpr");
+const sectionMountains = document.getElementById("projects");
+const sectionSoil = document.querySelector(".layer--soil");
+const crustFooter = document.getElementById("contact");
 
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 const toFixedSmart = (n) => (Math.abs(n) >= 100 ? n.toFixed(3) : n.toFixed(5));
@@ -255,6 +260,34 @@ const rebuildWalkers = () => {
     }
 };
 
+const rebuildTrees = () => {
+    if (!treeLane) return;
+
+    const count = clamp(
+        readNumberAttr(treeLane, "data-tree-count", 16),
+        8,
+        24
+    );
+
+    clearChildren(treeLane);
+    for (let i = 0; i < count; i++) {
+        const tree = document.createElement("div");
+        tree.className = "tree";
+        const trunkH = Math.round(rand(80, 140));
+        const crownW = Math.round(rand(60, 100));
+        const crownH = Math.round(rand(70, 120));
+        const trunkW = Math.round(rand(10, 16));
+        tree.style.setProperty("--w", `${Math.round(rand(28, 50))}px`);
+        tree.style.setProperty("--h", `${trunkH + crownH}px`);
+        tree.style.setProperty("--trunkH", `${trunkH}px`);
+        tree.style.setProperty("--trunkW", `${trunkW}px`);
+        tree.style.setProperty("--crownW", `${crownW}px`);
+        tree.style.setProperty("--crownH", `${crownH}px`);
+        tree.innerHTML = '<div class="tree__trunk"></div><div class="tree__crown"></div>';
+        treeLane.appendChild(tree);
+    }
+};
+
 const applyCitySpeed = () => {
     if (!skyline) return;
     const durationFromControls = citySpeed ? Math.round(Number(citySpeed.value)) : null;
@@ -281,21 +314,43 @@ if (peopleSpeed) peopleSpeed.addEventListener("input", rebuildWalkers);
 rebuildPlanes();
 rebuildSkyline();
 rebuildWalkers();
+rebuildTrees();
 applyCitySpeed();
 
 const setBgLayerVisibility = (el, amount) => {
     if (!el) return;
     const a = clamp(amount, 0, 1);
-    el.style.opacity = a.toFixed(3);
+    // Ensure minimum visibility when amount > 0
+    const finalOpacity = a > 0 ? Math.max(0.5, a) : 0;
+    // Direct style assignment to override CSS
+    el.style.opacity = finalOpacity.toFixed(3);
     el.style.transform = `translate3d(0, ${(1 - a) * 18}px, 0)`;
+    // Remove transition temporarily to ensure immediate visibility
+    el.style.transition = "opacity 0.3s ease, transform 0.3s ease";
 };
 
 const sectionWeight = (sectionEl) => {
     if (!sectionEl) return 0;
     const rect = sectionEl.getBoundingClientRect();
-    const mid = rect.top + rect.height / 2;
-    const d = Math.abs(mid - window.innerHeight * 0.52);
-    return clamp(1 - d / (window.innerHeight * 0.9), 0, 1);
+    const viewportHeight = window.innerHeight;
+    const sectionTop = rect.top;
+    const sectionBottom = rect.bottom;
+    
+    // Element is visible if it's in or near the viewport
+    // Start fading in when section is 1.5 viewport heights away
+    // Fully visible when section is in viewport
+    if (sectionBottom < 0) {
+        // Section is above viewport
+        const distance = -sectionBottom;
+        return clamp(1 - distance / (viewportHeight * 1.5), 0, 1);
+    } else if (sectionTop > viewportHeight) {
+        // Section is below viewport
+        const distance = sectionTop - viewportHeight;
+        return clamp(1 - distance / (viewportHeight * 1.5), 0, 1);
+    } else {
+        // Section is in viewport
+        return 1;
+    }
 };
 
 const cloudBands = scrollBg ? scrollBg.querySelectorAll(".cloudBand") : [];
@@ -309,16 +364,78 @@ const tickScrollBg = () => {
     const wStrato = sectionWeight(sectionStratosphere);
     const wCity = sectionWeight(sectionCity);
     const wClouds = sectionWeight(sectionExplore);
+    const wMountains = sectionMountains ? sectionWeight(sectionMountains) : 0;
+    const wSoil = sectionSoil ? sectionWeight(sectionSoil) : 0;
+    const wCrust = crustFooter ? sectionWeight(crustFooter) : 0;
+    
+    // Calculate scroll-based progression (0 at top, 1 at bottom)
+    const scrollProgress = scrollN;
+    
+    // Simple scroll-based visibility function - returns 0 to 1
+    const scrollVisibility = (minScroll, maxScroll) => {
+        if (scrollProgress < minScroll) return 0;
+        if (scrollProgress > maxScroll) return 0;
+        const range = maxScroll - minScroll;
+        const position = scrollProgress - minScroll;
+        const normalized = position / range;
+        // Smooth fade in/out
+        if (normalized < 0.2) {
+            return normalized / 0.2; // Fade in over first 20%
+        } else if (normalized > 0.8) {
+            return (1 - normalized) / 0.2; // Fade out over last 20%
+        } else {
+            return 1; // Full visibility in middle 60%
+        }
+    };
 
-    setBgLayerVisibility(planeLane, wStrato);
-    setBgLayerVisibility(skyline, wCity);
-    setBgLayerVisibility(peopleLane, wCity);
-
+    // Use scroll-based visibility primarily, with section weight as backup
+    // Planes appear (scroll 5-35%)
+    const planeVis = Math.max(wStrato * 0.5, scrollVisibility(0.05, 0.35));
+    if (planeLane) setBgLayerVisibility(planeLane, planeVis);
+    
+    // Clouds appear (scroll 15-50%)
+    const cloudVis = Math.max(wClouds * 0.5, scrollVisibility(0.15, 0.50));
     for (const band of cloudBands) {
         const base = band.classList.contains("cloudBand--bg2") ? 0.7 : 1;
-        const a = clamp(wClouds * base, 0, 1);
-        band.style.opacity = (0.16 + a * 0.42).toFixed(3);
+        const a = clamp(cloudVis * base, 0, 1);
+        const finalOpacity = a > 0 ? Math.max(0.6, 0.5 + a * 0.3) : 0;
+        band.style.opacity = finalOpacity.toFixed(3);
         band.style.transform = `translate3d(0, ${(1 - a) * 16}px, 0)`;
+        band.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+    }
+    
+    // Buildings appear (scroll 25-55%)
+    const buildingVis = Math.max(wCity * 0.5, scrollVisibility(0.25, 0.55));
+    if (skyline) setBgLayerVisibility(skyline, buildingVis);
+    
+    // Trees appear (scroll 35-70%)
+    const treeVis = Math.max(
+        wCity * 0.3,
+        wMountains * 0.7,
+        scrollVisibility(0.35, 0.70)
+    );
+    if (treeLane) setBgLayerVisibility(treeLane, treeVis);
+    
+    // People appear (scroll 30-65%)
+    const peopleVis = Math.max(
+        wCity * 0.6,
+        wMountains * 0.5,
+        scrollVisibility(0.30, 0.65)
+    );
+    if (peopleLane) setBgLayerVisibility(peopleLane, peopleVis);
+    
+    // Grass appears (scroll 60-95%)
+    const grassVis = Math.max(
+        wSoil * 0.7,
+        wCrust * 0.6,
+        scrollVisibility(0.60, 0.95)
+    );
+    if (grassLayer) {
+        const a = clamp(grassVis, 0, 1);
+        const finalOpacity = a > 0 ? Math.max(0.6, a) : 0;
+        grassLayer.style.opacity = finalOpacity.toFixed(3);
+        grassLayer.style.transform = `translate3d(0, ${(1 - a) * 24}px, 0)`;
+        grassLayer.style.transition = "opacity 0.3s ease, transform 0.3s ease";
     }
 };
 
@@ -328,12 +445,24 @@ const requestTick = () => {
 };
 
 if (scrollBg) {
+    // Run immediately on load
     tickScrollBg();
+    // Also run after a short delay to ensure DOM is ready
+    setTimeout(() => {
+        tickScrollBg();
+    }, 200);
     window.addEventListener("scroll", requestTick, { passive: true });
     window.addEventListener("resize", requestTick, { passive: true });
+    // Run on load event as well
+    window.addEventListener("load", () => {
+        tickScrollBg();
+    }, { passive: true });
 }
 
 map.whenReady(() => {
     updateCenterReadouts();
-    document.getElementById("year").textContent = `© ${new Date().getFullYear()} GeoDive`;
+    const yearEl = document.getElementById("year");
+    if (yearEl) {
+        yearEl.textContent = `© ${new Date().getFullYear()} GeoIntel Lab, IITTNiF`;
+    }
 });

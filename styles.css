@@ -420,13 +420,22 @@ h1{
 main{
     background: linear-gradient(
         #050711 0%,
-        #07183a 12%,
-        #0a2a56 24%,
-        #0f4a78 38%,
-        #2a85a8 52%,
-        #92dcf6 66%,
-        #eafcff 78%,
-        #f7f2ea 90%,
+        #07183a 8%,
+        #0a2a56 16%,
+        #0f4a78 28%,
+        #2a85a8 40%,
+        #5bb5d4 50%,
+        #92dcf6 60%,
+        #b8e8f0 68%,
+        #d4f0f5 74%,
+        #eafcff 80%,
+        #f0f8e8 85%,
+        #e8f0d8 88%,
+        #d8e0c8 92%,
+        #c8b8a0 95%,
+        #a89070 97%,
+        #8a7050 98%,
+        #6a5030 99%,
         #1a140d 100%
     );
 }
@@ -805,6 +814,160 @@ section.layer::before{
     100%{ transform: translate3d(126vw, 0, 0) scale(var(--scale, 1)); }
 }
 
+.treeLane{
+    position: absolute;
+    left: -18%;
+    right: -18%;
+    bottom: 20vh;
+    height: 320px;
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    padding: 0 26px;
+    z-index: 2;
+    animation: treeDrift var(--treeDuration, 24s) linear infinite;
+    will-change: transform;
+}
+.treeLane--bg{
+    bottom: 16vh;
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+    transition: opacity .22s ease, transform .22s ease;
+}
+.treeLane--still{ animation: none; }
+.tree{
+    width: var(--w, 32px);
+    height: var(--h, 200px);
+    position: relative;
+    transform: translateZ(0);
+}
+.tree__trunk{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--trunkW, 12px);
+    height: var(--trunkH, 120px);
+    border-radius: 8px 8px 4px 4px;
+    background:
+        linear-gradient(180deg, rgba(120,82,44,.85), rgba(74,50,26,.75)),
+        linear-gradient(90deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,.15) 100%);
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+}
+.tree__crown{
+    position: absolute;
+    bottom: var(--trunkH, 120px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--crownW, 80px);
+    height: var(--crownH, 100px);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(60,140,60,.45), rgba(40,100,40,.35) 50%, rgba(20,60,20,.25) 100%),
+        radial-gradient(ellipse at 50% 50%, rgba(80,160,80,.30), rgba(50,120,50,.20) 70%);
+    box-shadow: 
+        0 12px 32px rgba(0,0,0,.20),
+        inset 0 -8px 16px rgba(0,0,0,.15);
+    filter: blur(.5px);
+}
+.tree__crown::before{
+    content: "";
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 40%;
+    height: 40%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(100,200,100,.25), rgba(60,140,60,0) 70%);
+}
+.tree__crown::after{
+    content: "";
+    position: absolute;
+    top: 35%;
+    right: 25%;
+    width: 35%;
+    height: 35%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(90,180,90,.20), rgba(50,120,50,0) 70%);
+}
+@keyframes treeDrift{
+    0%{ transform: translate3d(0,0,0); }
+    100%{ transform: translate3d(-12%,0,0); }
+}
+
+.grassLayer{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8vh;
+    height: 140px;
+    background:
+        repeating-linear-gradient(90deg, 
+            transparent 0 2px,
+            rgba(60,140,60,.08) 2px 4px,
+            transparent 4px 6px,
+            rgba(80,160,80,.06) 6px 8px,
+            transparent 8px 12px),
+        repeating-linear-gradient(135deg,
+            rgba(40,100,40,.12) 0 1px,
+            transparent 1px 3px,
+            rgba(60,140,60,.10) 3px 4px,
+            transparent 4px 6px),
+        linear-gradient(to top, 
+            rgba(20,60,20,.15) 0%,
+            rgba(40,100,40,.08) 30%,
+            rgba(60,140,60,.04) 60%,
+            transparent 100%);
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    transition: opacity .24s ease, transform .24s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+.grassLayer--bg{
+    bottom: 6vh;
+}
+.grassLayer::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -20px;
+    height: 40px;
+    background:
+        repeating-linear-gradient(90deg,
+            transparent 0 4px,
+            rgba(60,140,60,.15) 4px 6px,
+            transparent 6px 10px,
+            rgba(80,160,80,.12) 10px 12px,
+            transparent 12px 18px),
+        linear-gradient(to bottom,
+            transparent 0%,
+            rgba(40,100,40,.10) 50%,
+            rgba(60,140,60,.05) 100%);
+    filter: blur(1px);
+}
+.grassLayer::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    background:
+        repeating-linear-gradient(90deg,
+            rgba(20,60,20,.18) 0 3px,
+            rgba(40,100,40,.12) 3px 5px,
+            rgba(60,140,60,.08) 5px 8px,
+            transparent 8px 12px),
+        linear-gradient(to top,
+            rgba(30,80,30,.20) 0%,
+            rgba(50,120,50,.12) 40%,
+            rgba(60,140,60,.06) 80%,
+            transparent 100%);
+    filter: blur(.8px);
+}
+
 .toggle{
     display: inline-flex;
     align-items: center;
@@ -827,7 +990,8 @@ input.range{
 .animOff .plane,
 .animOff .cloudBand,
 .animOff .skyline,
-.animOff .walker{
+.animOff .walker,
+.animOff .treeLane{
     animation-play-state: paused;
 }
 .mapShell{

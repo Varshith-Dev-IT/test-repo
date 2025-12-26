@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoDive — From Orbit to Crust</title>
-    <meta name="description" content="A geospatial exploration page that scrolls from outer space down to Earth's crust, ending in a gravel-textured footer." />
+    <title>GeoIntel — Geophysical Exploration</title>
+    <meta name="description" content="Geophysical Exploration using Ground Penetrating Radar (GPR) - Listening to the Earth's Hidden Signals" />
     <link rel="preconnect" href="https://unpkg.com" crossorigin />
     <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-    <a class="skip" href="#explore">Skip to map exploration</a>
+    <a class="skip" href="#about">Skip to main content</a>
 
     <header class="hero" id="top">
         <div class="cosmos" aria-hidden="true">
@@ -21,14 +21,15 @@
         </div>
         <div class="hero__topbar">
             <div class="wrap topbar">
-                <a class="brand" href="#top" aria-label="GeoDive home">
+                <a class="brand" href="#top" aria-label="GeoIntel home">
                     <span class="brand__mark" aria-hidden="true"></span>
-                    <span class="brand__name">GeoDive</span>
+                    <span class="brand__name">GeoIntel</span>
                 </a>
                 <nav class="nav" aria-label="Page">
-                    <a href="#layers">Layers</a>
-                    <a href="#explore">Explore</a>
-                    <a href="#crust">Crust</a>
+                    <a href="#about">About</a>
+                    <a href="#gpr">GPR</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
                 </nav>
             </div>
         </div>
@@ -36,29 +37,29 @@
         <div class="wrap hero__content">
             <div class="hero__grid">
                 <div>
-                    <span class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Start in outer space. Scroll down through Earth.</span>
-                    <h1>Geospatial exploration from orbit to crust.</h1>
-                    <p class="lead">Fly to any coordinates, drop markers, and read live center/zoom — all while the page transitions from deep space down to the gravel-textured crust layer at the footer.</p>
+                    <span class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Listening to the Earth's Hidden Signals</span>
+                    <h1>Geophysical Exploration</h1>
+                    <p class="lead">At GeoIntel, we believe the Earth speaks — through waves, echoes, and hidden reflections. Geophysical Exploration is our way of listening. With every pulse, we uncover the unseen, map the invisible, and give shape to the subsurface world beneath our feet.</p>
                     <div class="hero__actions">
-                        <a class="btn btn--primary" href="#explore">Start exploring</a>
-                        <a class="btn" href="#layers">See the layers</a>
+                        <a class="btn btn--primary" href="#gpr">Learn about GPR</a>
+                        <a class="btn" href="#projects">View Projects</a>
                     </div>
                 </div>
                 <aside class="heroCard" aria-label="Quick facts">
-                    <p class="heroCard__title">What you can do</p>
-                    <p class="heroCard__body">Click the map to drop a marker, fly to any lat/lng, and use the basemap selector for context.</p>
+                    <p class="heroCard__title">Where We Make a Difference</p>
+                    <p class="heroCard__body">Building Tomorrow, Smart Cities, Water & Environment, Heritage, Mines & Energy, Security</p>
                     <div class="stats" role="list">
                         <div class="stat" role="listitem">
-                            <div class="stat__k">Mode</div>
-                            <div class="stat__v">Explore</div>
+                            <div class="stat__k">Technology</div>
+                            <div class="stat__v">GPR</div>
                         </div>
                         <div class="stat" role="listitem">
-                            <div class="stat__k">Scale</div>
-                            <div class="stat__v">World → Street</div>
+                            <div class="stat__k">Frequency</div>
+                            <div class="stat__v">250-500 MHz</div>
                         </div>
                         <div class="stat" role="listitem">
-                            <div class="stat__k">Theme</div>
-                            <div class="stat__v">Space → Crust</div>
+                            <div class="stat__k">Method</div>
+                            <div class="stat__v">Non-Destructive</div>
                         </div>
                     </div>
                 </aside>
@@ -82,35 +83,38 @@
             <div class="cloudBand cloudBand--thin cloudBand--bg1"></div>
             <div class="cloudBand cloudBand--haze cloudBand--bg2"></div>
             <div class="skyline skyline--bg" id="skyline" data-city-speed="26"></div>
+            <div class="treeLane treeLane--bg" id="treeLane" data-tree-count="16"></div>
             <div class="peopleLane peopleLane--bg" id="peopleLane" data-people-count="12" data-people-speed="16"></div>
+            <div class="grassLayer grassLayer--bg" id="grassLayer"></div>
         </div>
     </div>
 
     <main id="main">
-        <section id="layers" class="layer layer--atmosphere" aria-label="Atmosphere layer">
+        <section id="about" class="layer layer--atmosphere" aria-label="About Geophysical Exploration">
             <div class="wrap layer__grid">
                 <div class="panel">
-                    <h2>Atmosphere</h2>
-                    <p>As you scroll, the background shifts from vacuum-black into atmospheric blues. The story stays consistent: you’re traveling down, layer by layer, until you hit the crust at the footer.</p>
-                    <div class="chips" aria-label="Layer tags">
-                        <span class="chip"><i aria-hidden="true"></i>Orbit</span>
-                        <span class="chip"><i aria-hidden="true"></i>Cloud deck</span>
-                        <span class="chip"><i aria-hidden="true"></i>Terrain</span>
-                        <span class="chip"><i aria-hidden="true"></i>Soil</span>
-                        <span class="chip"><i aria-hidden="true"></i>Crust</span>
+                    <h2>Geophysical Exploration</h2>
+                    <p>At GeoIntel, we believe the Earth speaks — through waves, echoes, and hidden reflections. Geophysical Exploration is our way of listening. With every pulse, we uncover the unseen, map the invisible, and give shape to the subsurface world beneath our feet.</p>
+                    <div class="chips" aria-label="Application areas">
+                        <span class="chip"><i aria-hidden="true"></i>Infrastructure</span>
+                        <span class="chip"><i aria-hidden="true"></i>Smart Cities</span>
+                        <span class="chip"><i aria-hidden="true"></i>Water & Environment</span>
+                        <span class="chip"><i aria-hidden="true"></i>Heritage</span>
+                        <span class="chip"><i aria-hidden="true"></i>Mines & Energy</span>
+                        <span class="chip"><i aria-hidden="true"></i>Security</span>
                     </div>
                 </div>
                 <div class="panel">
-                    <h2>How to use</h2>
-                    <p>Jump to a place by typing coordinates, or click anywhere on the map to pin a marker. The readout panel updates with the marker and current map center.</p>
+                    <h2>Where We Make a Difference</h2>
+                    <p>Building Tomorrow – assessing roads, bridges, and tunnels for safer infrastructure. Smart Cities – locating utilities before a single trench is dug. Water & Environment – tracing aquifers, mapping soil health, identifying contamination zones. Heritage – protecting archaeological treasures without disturbing them. Mines & Energy – scanning for voids, shallow deposits, and safe operations. Security – detecting tunnels, UXOs, and hidden threats.</p>
                     <div class="readout" role="list">
                         <div class="readoutRow" role="listitem">
-                            <div class="readoutRow__k">Tip</div>
-                            <div class="readoutRow__v">Latitude ranges from -90 to 90; longitude from -180 to 180.</div>
+                            <div class="readoutRow__k">Approach</div>
+                            <div class="readoutRow__v">Non-Destructive</div>
                         </div>
                         <div class="readoutRow" role="listitem">
-                            <div class="readoutRow__k">Tip</div>
-                            <div class="readoutRow__v">Use “Locate me” to fly to your device position (if allowed).</div>
+                            <div class="readoutRow__k">Technology</div>
+                            <div class="readoutRow__v">Ground Penetrating Radar (GPR)</div>
                         </div>
                     </div>
                 </div>
@@ -121,102 +125,105 @@
 
         <section id="city" class="layer layer--city" aria-label="City layer"></section>
 
-        <section id="explore" class="layer layer--clouds" aria-label="Geospatial exploration">
+        <section id="gpr" class="layer layer--clouds" aria-label="Ground Penetrating Radar">
             <div class="wrap layer__grid">
                 <div class="panel">
-                    <h2>Explore the globe</h2>
-                    <p>Use the controls to fly to a coordinate. Click the map to place a marker and read exact lat/lng. This keeps the page geospatial while the theme travels from space down to the crust.</p>
-
-                    <div class="readout" role="list" aria-label="Live readouts">
+                    <h2>Ground Penetrating Radar (GPR)</h2>
+                    <p>What Makes GPR Unique? Unlike drilling or excavation, GPR provides a non-destructive window into the Earth. From concrete bridges to ancient ruins, from hidden pipelines to aquifers, GPR reveals what lies beneath — quickly, safely, and in high resolution.</p>
+                    <div class="readout" role="list" aria-label="GPR capabilities">
                         <div class="readoutRow" role="listitem">
-                            <div class="readoutRow__k">Marker</div>
-                            <div class="readoutRow__v" id="markerReadout">No marker yet</div>
+                            <div class="readoutRow__k">Dual-Antenna Power</div>
+                            <div class="readoutRow__v">250 MHz for depth, 500 MHz for detail</div>
                         </div>
                         <div class="readoutRow" role="listitem">
-                            <div class="readoutRow__k">Map center</div>
-                            <div class="readoutRow__v" id="centerReadout">—</div>
+                            <div class="readoutRow__k">3D Mapping</div>
+                            <div class="readoutRow__v">Transform profiles into volumetric models</div>
                         </div>
                         <div class="readoutRow" role="listitem">
-                            <div class="readoutRow__k">Zoom</div>
-                            <div class="readoutRow__v" id="zoomReadout">—</div>
+                            <div class="readoutRow__k">Smart Processing</div>
+                            <div class="readoutRow__v">Advanced filters, imaging, and AI-powered insights</div>
                         </div>
                         <div class="readoutRow" role="listitem">
-                            <div class="readoutRow__k">Status</div>
-                            <div class="readoutRow__v muted" id="statusReadout">Ready</div>
+                            <div class="readoutRow__k">Integrated Approach</div>
+                            <div class="readoutRow__v">Combine with seismic, electrical, and magnetic methods</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="mapShell" aria-label="Interactive map">
-                    <div class="mapTopbar" role="group" aria-label="Map controls">
-                        <div class="mapTopbar__left">
-                            <div class="fieldRow">
-                                <label class="small" for="lat">Lat</label>
-                                <input class="small" id="lat" inputmode="decimal" placeholder="20.0" aria-label="Latitude" />
-                                <label class="small" for="lng">Lng</label>
-                                <input class="small" id="lng" inputmode="decimal" placeholder="0.0" aria-label="Longitude" />
-                                <label class="small" for="zoom">Zoom</label>
-                                <input class="small" id="zoom" inputmode="numeric" placeholder="3" aria-label="Zoom level" />
-                                <button class="btnSmall btnSmall--accent" id="flyBtn" type="button">Fly</button>
-                            </div>
-                        </div>
-                        <div class="mapTopbar__right">
-                            <select class="small" id="basemap" aria-label="Basemap">
-                                <option value="osm">Street (OSM)</option>
-                                <option value="terrain">Terrain</option>
-                                <option value="sat">Satellite</option>
-                            </select>
-                            <button class="btnSmall" id="locateBtn" type="button">Locate me</button>
-                            <button class="btnSmall btnSmall--danger" id="clearBtn" type="button">Clear</button>
-                        </div>
-                    </div>
-                    <div id="map" class="map" role="application" aria-label="Map canvas"></div>
+                <div class="panel">
+                    <h2>Our Edge</h2>
+                    <p>Our GPR systems feature dual-antenna power with 250 MHz for depth penetration and 500 MHz for high-resolution detail. We provide 3D mapping and visualization to transform profiles into volumetric models. Our smart processing includes advanced filters, imaging, and AI-powered insights. We take an integrated approach, combining GPR with seismic, electrical, and magnetic methods for a complete picture. All work is conducted by experienced geophysicists and geologists.</p>
                 </div>
             </div>
         </section>
 
-        <section class="layer layer--mountains" aria-label="Terrain layer">
+        <section id="projects" class="layer layer--mountains" aria-label="GPR Projects">
             <div class="wrap layer__grid">
                 <div class="panel">
-                    <h2>Terrain</h2>
-                    <p>Below the cloud deck, patterns get sharper. Mountains, coastlines, and cities are just data until you anchor them to coordinates and scale.</p>
+                    <h2>In-House Projects - GPR</h2>
+                    <p>Our portfolio includes diverse applications: Culvert Health Monitoring, Indoor GPR Survey for Utility Detection, Detection and Mapping of Manholes and Underground Chambers, Hidden Transverse and Longitudinal Joints for Roads, Detection of Utilities Beneath Rebar Mesh, Underground Pipe Network Detection, and more.</p>
                 </div>
                 <div class="panel">
-                    <h2>Try this</h2>
-                    <p>Fly to Kathmandu (27.7172, 85.3240) at zoom 11, then switch between basemaps to compare context.</p>
-                    <div class="hero__actions">
-                        <button class="btnSmall btnSmall--accent" id="tryKathmandu" type="button">Fly to Kathmandu</button>
-                        <button class="btnSmall" id="tryReykjavik" type="button">Fly to Reykjavík</button>
-                    </div>
+                    <h2>Culvert Health Monitoring</h2>
+                    <p><strong>Problem Statement:</strong> Reinforced concrete culverts are critical components in transportation and drainage infrastructure. Over time, they are subjected to traffic loading, environmental exposure, moisture ingress, chloride penetration, and material fatigue, which may lead to deterioration, corrosion of reinforcement, void formation, and loss of serviceability.</p>
+                    <p><strong>Overview:</strong> Ground Penetrating Radar (GPR) was deployed for a non-destructive evaluation (NDE) of a reinforced concrete culvert to assess its structural integrity and support preventive maintenance planning. The survey covered 144.5 m² with a high-density 10 cm grid spacing.</p>
+                    <p><strong>Key Findings:</strong> Rebar Mesh Mapping, Interface Characterization, Material Degradation Mapping, Corrosion Potential Zones, and Structural Elements were precisely localized.</p>
                 </div>
             </div>
         </section>
 
-        <section class="layer layer--soil" aria-label="Soil layer">
+        <section class="layer layer--soil" aria-label="More Projects">
             <div class="wrap layer__grid">
                 <div class="panel">
-                    <h2>Soil</h2>
-                    <p>At human scale, the map becomes a surface: roads, rivers, and elevation. Keep scrolling to reach the crust.</p>
+                    <h2>Indoor GPR Survey for Utility Detection</h2>
+                    <p>Ground Penetrating Radar (GPR) was deployed for non-destructive evaluation to detect utilities and map subsurface conditions indoors. The survey enables precise utility location without disruption to operations.</p>
                 </div>
                 <div class="panel">
-                    <h2>Notes</h2>
-                    <p>This is a single-file site: everything is in one HTML file so it’s easy to host anywhere.</p>
-                    <div class="fineprint">Tiles are loaded from public providers. If you’re offline, the UI still loads, but map tiles won’t render.</div>
+                    <h2>Detection and Mapping of Manholes</h2>
+                    <p>Underground manholes and inspection chambers are vital for drainage, utility access, and maintenance. However, their depth, extent, and connectivity are often poorly documented. A GPR survey was conducted to map depth, extent, internal structure, and connecting utilities non-destructively.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="layer layer--soil" aria-label="Additional Projects">
+            <div class="wrap layer__grid">
+                <div class="panel">
+                    <h2>Hidden Joints for Roads</h2>
+                    <p>A Ground Penetrating Radar (GPR) survey was conducted over a 150 m² road section to assess subsurface layers and detect hidden joints. A 500 MHz ultra-wideband antenna was used to capture both shallow and moderately deep structural features. The survey identified hidden transverse and longitudinal joints, soil subsidence zones, and cracking indicators.</p>
+                </div>
+                <div class="panel">
+                    <h2>Utilities Beneath Rebar Mesh</h2>
+                    <p>Locating utilities beneath reinforced concrete structures is challenging. The dense rebar mesh produces strong reflections that mask deeper anomalies. A 250 MHz ultra-wideband (UWB) antenna was used to detect utilities beneath a reinforced concrete slab, successfully resolving interference caused by rebar signatures while imaging deeper subsurface utilities.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="layer layer--soil" aria-label="Underground Pipe Detection">
+            <div class="wrap layer__grid">
+                <div class="panel">
+                    <h2>Underground Pipe Network Detection</h2>
+                    <p>Efficient irrigation systems rely on well-laid underground pipelines, which are often difficult to detect once covered by soil and vegetation. A Ground Penetrating Radar (GPR) survey was conducted to identify and map the subsurface pipe network supporting the sprinkler system. A 500 MHz ultra-wideband antenna was used to capture shallow subsurface features with high clarity, successfully detecting continuous linear hyperbolic signatures corresponding to small-diameter pipes.</p>
+                </div>
+                <div class="panel">
+                    <h2>Join the Journey</h2>
+                    <p>At GeoIntel, it's a vision of exploration without destruction. Whether you are an industry partner, a researcher, or an innovator, let's collaborate to uncover what lies beneath.</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="crustFooter" id="crust" aria-label="Crust layer footer">
+    <footer class="crustFooter" id="contact" aria-label="Contact Information">
         <div class="wrap footerGrid">
             <div class="footerCard">
-                <h3>Crust layer</h3>
-                <p>You’ve reached the ground: a gravel-textured footer that feels like the crust layer at the bottom of the scroll.</p>
-                <div class="fineprint">Built with HTML, CSS, and a lightweight interactive map for geospatial exploration.</div>
+                <h3>Our Location</h3>
+                <p>Geospatial Intelligence and Applications Laboratory (Geo-Intel Lab)<br>IIT Tirupati Navavishkar I-Hub Foundation (IITTNiF)<br>IIT Tirupati, Tirupati, Andhra Pradesh – 517619, India</p>
+                <p>DigiPin: 4TF-9CP-6L27</p>
+                <div class="fineprint">Geophysical Exploration using Ground Penetrating Radar (GPR)</div>
             </div>
             <div class="footerCard">
-                <h3>Quick links</h3>
-                <p><a href="#top">Back to orbit</a> · <a href="#explore">Map</a> · <a href="#layers">Layers</a></p>
+                <h3>Get in Touch</h3>
+                <p><strong>Head Geo-Intel Lab:</strong> <a href="mailto:geo.intel@iittnif.com">Contact</a></p>
+                <p><strong>General Enquiries:</strong><br>✉️ Email: <a href="mailto:geo.intel@iittnif.com">geo.intel@iittnif.com</a><br>☎️ Phone: +91-9154746805</p>
+                <p><a href="#top">Back to top</a> · <a href="#about">About</a> · <a href="#gpr">GPR</a> · <a href="#projects">Projects</a></p>
                 <div class="fineprint" id="year"></div>
             </div>
         </div>
@@ -226,3 +233,4 @@
     <script src="./app.js"></script>
 </body>
 </html>
+
