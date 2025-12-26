@@ -3,9 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GeoDive — From Orbit to Crust</title>
+    <meta name="description" content="A geospatial exploration page that scrolls from outer space down to Earth's crust, ending in a gravel-textured footer." />
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
+    <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-    
+    <a class="skip" href="#explore">Skip to map exploration</a>
+
+    <header class="hero" id="top">
+        <div class="cosmos" aria-hidden="true">
+            <span class="planet planet--a"></span>
+            <span class="planet planet--b"></span>
+            <span class="planet planet--c"></span>
+        </div>
+        <div class="hero__topbar">
+            <div class="wrap topbar">
+                <a class="brand" href="#top" aria-label="GeoDive home">
+                    <span class="brand__mark" aria-hidden="true"></span>
+                    <span class="brand__name">GeoDive</span>
+                </a>
+                <nav class="nav" aria-label="Page">
+                    <a href="#layers">Layers</a>
+                    <a href="#explore">Explore</a>
+                    <a href="#crust">Crust</a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="wrap hero__content">
+            <div class="hero__grid">
+                <div>
+                    <span class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Start in outer space. Scroll down through Earth.</span>
+                    <h1>Geospatial exploration from orbit to crust.</h1>
+                    <p class="lead">Fly to any coordinates, drop markers, and read live center/zoom — all while the page transitions from deep space down to the gravel-textured crust layer at the footer.</p>
+                    <div class="hero__actions">
+                        <a class="btn btn--primary" href="#explore">Start exploring</a>
+                        <a class="btn" href="#layers">See the layers</a>
+                    </div>
+                </div>
+                <aside class="heroCard" aria-label="Quick facts">
+                    <p class="heroCard__title">What you can do</p>
+                    <p class="heroCard__body">Click the map to drop a marker, fly to any lat/lng, and use the basemap selector for context.</p>
+                    <div class="stats" role="list">
+                        <div class="stat" role="listitem">
+                            <div class="stat__k">Mode</div>
+                            <div class="stat__v">Explore</div>
+                        </div>
+                        <div class="stat" role="listitem">
+                            <div class="stat__k">Scale</div>
+                            <div class="stat__v">World → Street</div>
+                        </div>
+                        <div class="stat" role="listitem">
+                            <div class="stat__k">Theme</div>
+                            <div class="stat__v">Space → Crust</div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <div class="scrollCue" aria-hidden="true">
+            <div class="scrollCue__dot"></div>
+            <div>Scroll down</div>
+        </div>
+    </header>
+
+    <div class="scrollBg" id="scrollBg" aria-hidden="true">
+        <div class="scrollBg__inner">
+            <div class="bgOrbs">
+                <span class="orb orb--a"></span>
+                <span class="orb orb--b"></span>
+                <span class="orb orb--c"></span>
+            </div>
+            <div class="planeLane planeLane--bg" id="planeLane" data-plane-count="10" data-plane-speed="18"></div>
+            <div class="cloudBand cloudBand--thin cloudBand--bg1"></div>
+            <div class="cloudBand cloudBand--haze cloudBand--bg2"></div>
+            <div class="skyline skyline--bg" id="skyline" data-city-speed="26"></div>
+            <div class="peopleLane peopleLane--bg" id="peopleLane" data-people-count="12" data-people-speed="16"></div>
+        </div>
+    </div>
+
+    <main id="main">
+        <section id="layers" class="layer layer--atmosphere" aria-label="Atmosphere layer">
+            <div class="wrap layer__grid">
+                <div class="panel">
+                    <h2>Atmosphere</h2>
+                    <p>As you scroll, the background shifts from vacuum-black into atmospheric blues. The story stays consistent: you’re traveling down, layer by layer, until you hit the crust at the footer.</p>
+                    <div class="chips" aria-label="Layer tags">
+                        <span class="chip"><i aria-hidden="true"></i>Orbit</span>
+                        <span class="chip"><i aria-hidden="true"></i>Cloud deck</span>
+                        <span class="chip"><i aria-hidden="true"></i>Terrain</span>
+                        <span class="chip"><i aria-hidden="true"></i>Soil</span>
+                        <span class="chip"><i aria-hidden="true"></i>Crust</span>
+                    </div>
+                </div>
+                <div class="panel">
+                    <h2>How to use</h2>
+                    <p>Jump to a place by typing coordinates, or click anywhere on the map to pin a marker. The readout panel updates with the marker and current map center.</p>
+                    <div class="readout" role="list">
+                        <div class="readoutRow" role="listitem">
+                            <div class="readoutRow__k">Tip</div>
+                            <div class="readoutRow__v">Latitude ranges from -90 to 90; longitude from -180 to 180.</div>
+                        </div>
+                        <div class="readoutRow" role="listitem">
+                            <div class="readoutRow__k">Tip</div>
+                            <div class="readoutRow__v">Use “Locate me” to fly to your device position (if allowed).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="stratosphere" class="layer layer--stratosphere" aria-label="Stratosphere layer"></section>
+
+        <section id="city" class="layer layer--city" aria-label="City layer"></section>
+
+        <section id="explore" class="layer layer--clouds" aria-label="Geospatial exploration">
+            <div class="wrap layer__grid">
+                <div class="panel">
+                    <h2>Explore the globe</h2>
+                    <p>Use the controls to fly to a coordinate. Click the map to place a marker and read exact lat/lng. This keeps the page geospatial while the theme travels from space down to the crust.</p>
+
+                    <div class="readout" role="list" aria-label="Live readouts">
+                        <div class="readoutRow" role="listitem">
+                            <div class="readoutRow__k">Marker</div>
+                            <div class="readoutRow__v" id="markerReadout">No marker yet</div>
+                        </div>
+                        <div class="readoutRow" role="listitem">
+                            <div class="readoutRow__k">Map center</div>
+                            <div class="readoutRow__v" id="centerReadout">—</div>
+                        </div>
+                        <div class="readoutRow" role="listitem">
+                            <div class="readoutRow__k">Zoom</div>
+                            <div class="readoutRow__v" id="zoomReadout">—</div>
+                        </div>
+                        <div class="readoutRow" role="listitem">
+                            <div class="readoutRow__k">Status</div>
+                            <div class="readoutRow__v muted" id="statusReadout">Ready</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mapShell" aria-label="Interactive map">
+                    <div class="mapTopbar" role="group" aria-label="Map controls">
+                        <div class="mapTopbar__left">
+                            <div class="fieldRow">
+                                <label class="small" for="lat">Lat</label>
+                                <input class="small" id="lat" inputmode="decimal" placeholder="20.0" aria-label="Latitude" />
+                                <label class="small" for="lng">Lng</label>
+                                <input class="small" id="lng" inputmode="decimal" placeholder="0.0" aria-label="Longitude" />
+                                <label class="small" for="zoom">Zoom</label>
+                                <input class="small" id="zoom" inputmode="numeric" placeholder="3" aria-label="Zoom level" />
+                                <button class="btnSmall btnSmall--accent" id="flyBtn" type="button">Fly</button>
+                            </div>
+                        </div>
+                        <div class="mapTopbar__right">
+                            <select class="small" id="basemap" aria-label="Basemap">
+                                <option value="osm">Street (OSM)</option>
+                                <option value="terrain">Terrain</option>
+                                <option value="sat">Satellite</option>
+                            </select>
+                            <button class="btnSmall" id="locateBtn" type="button">Locate me</button>
+                            <button class="btnSmall btnSmall--danger" id="clearBtn" type="button">Clear</button>
+                        </div>
+                    </div>
+                    <div id="map" class="map" role="application" aria-label="Map canvas"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="layer layer--mountains" aria-label="Terrain layer">
+            <div class="wrap layer__grid">
+                <div class="panel">
+                    <h2>Terrain</h2>
+                    <p>Below the cloud deck, patterns get sharper. Mountains, coastlines, and cities are just data until you anchor them to coordinates and scale.</p>
+                </div>
+                <div class="panel">
+                    <h2>Try this</h2>
+                    <p>Fly to Kathmandu (27.7172, 85.3240) at zoom 11, then switch between basemaps to compare context.</p>
+                    <div class="hero__actions">
+                        <button class="btnSmall btnSmall--accent" id="tryKathmandu" type="button">Fly to Kathmandu</button>
+                        <button class="btnSmall" id="tryReykjavik" type="button">Fly to Reykjavík</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="layer layer--soil" aria-label="Soil layer">
+            <div class="wrap layer__grid">
+                <div class="panel">
+                    <h2>Soil</h2>
+                    <p>At human scale, the map becomes a surface: roads, rivers, and elevation. Keep scrolling to reach the crust.</p>
+                </div>
+                <div class="panel">
+                    <h2>Notes</h2>
+                    <p>This is a single-file site: everything is in one HTML file so it’s easy to host anywhere.</p>
+                    <div class="fineprint">Tiles are loaded from public providers. If you’re offline, the UI still loads, but map tiles won’t render.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="crustFooter" id="crust" aria-label="Crust layer footer">
+        <div class="wrap footerGrid">
+            <div class="footerCard">
+                <h3>Crust layer</h3>
+                <p>You’ve reached the ground: a gravel-textured footer that feels like the crust layer at the bottom of the scroll.</p>
+                <div class="fineprint">Built with HTML, CSS, and a lightweight interactive map for geospatial exploration.</div>
+            </div>
+            <div class="footerCard">
+                <h3>Quick links</h3>
+                <p><a href="#top">Back to orbit</a> · <a href="#explore">Map</a> · <a href="#layers">Layers</a></p>
+                <div class="fineprint" id="year"></div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="./app.js"></script>
 </body>
 </html>
